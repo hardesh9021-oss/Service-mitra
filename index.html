@@ -265,7 +265,7 @@ document.getElementById("bookingForm").addEventListener(
 
     try {
       const { error } = await db.from("bookings").insert([{
-        customer_name: name,
+        customer: name,
         phone: phone,
         service: selected,
         city: city,
