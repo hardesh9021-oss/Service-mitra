@@ -1,1 +1,338 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Mitra | Home Services</title>
+<meta name="description" content="अलीगढ़, हाथरस और सासनी में भरोसेमंद घरेलू सेवाएं बुक करें।">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+}
+header{
+  background:#171717;
+  color:white;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{font-size:24px;font-weight:bold}
+.logo span{color:#ff3939}
+.tagline{font-size:11px;color:#ccc;margin-top:5px}
+.menu{font-size:25px;color:white}
+.hero{
+  background:linear-gradient(135deg,#171717,#383838);
+  color:white;
+  padding:38px 18px;
+}
+.hero h1{font-size:30px;line-height:1.3}
+.hero h1 span{color:#ff4141}
+.hero p{color:#ddd;line-height:1.7;margin:13px 0}
+.search{
+  width:100%;padding:15px;border:0;
+  border-radius:9px;font-size:15px;margin-top:10px;
+}
+section{padding:23px 15px}
+h2{font-size:21px;margin-bottom:16px}
+.location{
+  background:white;padding:15px;
+  border-radius:10px;margin-bottom:22px;
+}
+.location select{
+  width:100%;padding:12px;margin-top:10px;
+  border:1px solid #ddd;border-radius:8px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.service{
+  background:white;border-radius:13px;
+  padding:18px 9px;text-align:center;
+  box-shadow:0 2px 9px #0000000d;
+}
+.emoji{font-size:35px}
+.service h3{font-size:14px;margin:10px 0}
+.service button,.book{
+  background:#ed2929;color:white;border:0;
+  border-radius:7px;padding:10px 15px;
+  font-weight:bold;cursor:pointer;
+}
+.service button:active,.book:active{transform:scale(.96)}
+.banner{
+  background:#ffe5e5;padding:22px;
+  border-radius:13px;line-height:1.8;
+}
+.banner strong{color:#d82020}
+footer{
+  background:#171717;color:white;
+  text-align:center;padding:27px 12px;line-height:2;
+}
+small{color:#aaa}
+.modal{
+  display:none;position:fixed;inset:0;
+  background:#0009;z-index:10;
+  align-items:center;justify-content:center;
+  padding:15px;
+}
+.modal-content{
+  background:white;width:100%;max-width:420px;
+  padding:22px;border-radius:15px;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-content h2{margin-bottom:12px}
+.modal-content input,.modal-content textarea{
+  width:100%;padding:13px;margin:8px 0;
+  border:1px solid #ddd;border-radius:8px;
+  font-size:15px;
+}
+.modal-content textarea{height:80px;resize:vertical}
+.modal-actions{display:flex;gap:10px;margin-top:12px}
+.close{
+  background:#eee;color:#222;
+  border:0;padding:12px;border-radius:8px;
+  cursor:pointer;flex:1;
+}
+.submit{flex:1}
+.no-result{
+  display:none;text-align:center;
+  padding:20px;color:#777;
+}
+@media(min-width:650px){
+  .hero,section{padding-left:8%;padding-right:8%}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .hero h1{font-size:42px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo">SERVICE <span>MITRA</span></div>
+    <div class="tagline">Aapki har service ka bharosemand saathi</div>
+  </div>
+  <div class="menu">☰</div>
+</header>
+
+<div class="hero">
+  <h1>घर की हर समस्या का <span>समाधान!</span></h1>
+  <p>अब घर बैठे बुक करें भरोसेमंद सर्विस। आसान बुकिंग और बेहतर सेवा।</p>
+  <input class="search" id="search"
+    placeholder="कौन सी सर्विस चाहिए? 🔍"
+    oninput="filterServices()">
+</div>
+
+<section>
+
+  <div class="location">
+    📍 <b>अपना शहर चुनें:</b>
+    <select id="city">
+      <option>अलीगढ़</option>
+      <option>हाथरस</option>
+      <option>सासनी</option>
+    </select>
+  </div>
+
+  <h2>हमारी सर्विसेज 🛠️</h2>
+
+  <div class="grid" id="services">
+
+    <div class="service">
+      <div class="emoji">⚡</div>
+      <h3>इलेक्ट्रिशियन</h3>
+      <button onclick="book('इलेक्ट्रिशियन')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🔧</div>
+      <h3>प्लंबर</h3>
+      <button onclick="book('प्लंबर')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">❄️</div>
+      <h3>AC रिपेयर</h3>
+      <button onclick="book('AC रिपेयर')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🚰</div>
+      <h3>RO सर्विस</h3>
+      <button onclick="book('RO सर्विस')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🧹</div>
+      <h3>घर की सफाई</h3>
+      <button onclick="book('घर की सफाई')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🎨</div>
+      <h3>पेंटिंग</h3>
+      <button onclick="book('पेंटिंग')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🪚</div>
+      <h3>कारपेंटर</h3>
+      <button onclick="book('कारपेंटर')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🧊</div>
+      <h3>फ्रिज रिपेयर</h3>
+      <button onclick="book('फ्रिज रिपेयर')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🧺</div>
+      <h3>वॉशिंग मशीन</h3>
+      <button onclick="book('वॉशिंग मशीन')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">💇</div>
+      <h3>ब्यूटी और सैलून</h3>
+      <button onclick="book('ब्यूटी और सैलून')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">✨</div>
+      <h3>डीप क्लीनिंग</h3>
+      <button onclick="book('डीप क्लीनिंग')">बुक करें</button>
+    </div>
+
+    <div class="service">
+      <div class="emoji">🐜</div>
+      <h3>पेस्ट कंट्रोल</h3>
+      <button onclick="book('पेस्ट कंट्रोल')">बुक करें</button>
+    </div>
+
+  </div>
+
+  <div class="no-result" id="noResult">
+    कोई सर्विस नहीं मिली।
+  </div>
+</section>
+
+<section>
+  <div class="banner">
+    <h2>आपका भरोसा, हमारी जिम्मेदारी ❤️</h2>
+    <strong>SERVICE MITRA</strong>
+    <br>अलीगढ़ • हाथरस • सासनी
+    <br>जल्द ही पूरे भारत में!
+  </div>
+</section>
+
+<footer>
+  <b>SERVICE MITRA</b>
+  <br>आपकी हर घरेलू सर्विस का साथी।
+  <br><small>© 2026 Service Mitra. All Rights Reserved.</small>
+</footer>
+
+<!-- Booking Form -->
+<div class="modal" id="bookingModal">
+  <div class="modal-content">
+    <h2>सर्विस बुक करें</h2>
+    <p id="selectedService"></p>
+
+    <form id="bookingForm">
+      <input id="customerName" type="text"
+        placeholder="आपका नाम" required>
+
+      <input id="customerPhone" type="tel"
+        placeholder="मोबाइल नंबर" pattern="[0-9]{10}"
+        maxlength="10" required>
+
+      <textarea id="customerAddress"
+        placeholder="पूरा पता लिखें" required></textarea>
+
+      <div class="modal-actions">
+        <button type="button" class="close"
+          onclick="closeBooking()">बंद करें</button>
+        <button type="submit" class="book submit">
+          बुकिंग भेजें
+        </button>
+      </div>
+    </form>
+    <p style="font-size:11px;color:#888;margin-top:12px">
+      यह डेमो फॉर्म है। अभी बुकिंग सर्वर पर सेव नहीं होती।
+    </p>
+  </div>
+</div>
+
+<script>
+let selected = "";
+
+function book(service){
+  selected = service;
+  document.getElementById("selectedService").innerText =
+    "चुनी गई सर्विस: " + service;
+
+  document.getElementById("bookingModal").style.display =
+    "flex";
+}
+
+function closeBooking(){
+  document.getElementById("bookingModal").style.display =
+    "none";
+}
+
+function filterServices(){
+  let value = document.getElementById("search")
+    .value.toLowerCase();
+
+  let items = document.querySelectorAll(".service");
+  let count = 0;
+
+  items.forEach(item => {
+    let match = item.innerText.toLowerCase()
+      .includes(value);
+
+    item.style.display = match ? "block" : "none";
+
+    if(match) count++;
+  });
+
+  document.getElementById("noResult").style.display =
+    count === 0 ? "block" : "none";
+}
+
+document.getElementById("bookingForm")
+.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let name = document.getElementById("customerName").value;
+  let phone = document.getElementById("customerPhone").value;
+  let address = document.getElementById("customerAddress").value;
+  let city = document.getElementById("city").value;
+
+  if(!/^[0-9]{10}$/.test(phone)){
+    alert("कृपया सही 10 अंकों का मोबाइल नंबर डालें।");
+    return;
+  }
+
+  alert(
+    "धन्यवाद " + name +
+    "! आपकी " + selected +
+    " की डेमो बुकिंग तैयार है।\\nशहर: " +
+    city + "\\nअभी बुकिंग सर्वर से कनेक्ट नहीं है।"
+  );
+
+  closeBooking();
+  this.reset();
+});
+</script>
+
+</body>
+</html>
