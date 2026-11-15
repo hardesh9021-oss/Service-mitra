@@ -1,3 +1,205 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Mitra - आपकी सेवा, आपके पास</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
+    header {
+      background: #087b52;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      padding: 18px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .service {
+      background: white;
+      border-radius: 10px;
+      padding: 18px 8px;
+      text-align: center;
+      box-shadow: 0 2px 7px #ddd;
+    }
+    .service button, .submit-btn {
+      background: #087b52;
+      color: white;
+      border: 0;
+      border-radius: 7px;
+      padding: 11px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .service button { width: 100%; }
+    .submit-btn { width: 100%; padding: 14px; }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0009;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      z-index: 10;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .close {
+      float: right;
+      border: 0;
+      background: #eee;
+      padding: 7px 12px;
+      border-radius: 5px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #555;
+    }
+    @media (min-width: 600px) {
+      .services { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛠️ SERVICE MITRA</h1>
+  <p>आपकी सेवा, आपके पास</p>
+  <p>Aligarh | Hathras | Sasni</p>
+</header>
+
+<div class="container">
+  <h2>हमारी सर्विस</h2>
+
+  <input
+    id="search"
+    type="text"
+    placeholder="सर्विस खोजें..."
+    oninput="filterServices()"
+  >
+
+  <div class="services" id="services">
+
+    <div class="service">⚡<br>इलेक्ट्रीशियन
+      <button onclick="book('इलेक्ट्रीशियन')">बुक करें</button>
+    </div>
+
+    <div class="service">🚰<br>प्लंबर
+      <button onclick="book('प्लंबर')">बुक करें</button>
+    </div>
+
+    <div class="service">❄️<br>AC रिपेयर
+      <button onclick="book('AC रिपेयर')">बुक करें</button>
+    </div>
+
+    <div class="service">💧<br>RO सर्विस
+      <button onclick="book('RO सर्विस')">बुक करें</button>
+    </div>
+
+    <div class="service">🧹<br>घर की सफाई
+      <button onclick="book('घर की सफाई')">बुक करें</button>
+    </div>
+
+    <div class="service">🎨<br>पेंटिंग
+      <button onclick="book('पेंटिंग')">बुक करें</button>
+    </div>
+
+    <div class="service">🪚<br>कारपेंटर
+      <button onclick="book('कारपेंटर')">बुक करें</button>
+    </div>
+
+    <div class="service">🧊<br>फ्रिज रिपेयर
+      <button onclick="book('फ्रिज रिपेयर')">बुक करें</button>
+    </div>
+
+    <div class="service">🧺<br>वॉशिंग मशीन
+      <button onclick="book('वॉशिंग मशीन')">बुक करें</button>
+    </div>
+
+    <div class="service">💇<br>ब्यूटी और सैलून
+      <button onclick="book('ब्यूटी और सैलून')">बुक करें</button>
+    </div>
+
+    <div class="service">✨<br>डीप क्लीनिंग
+      <button onclick="book('डीप क्लीनिंग')">बुक करें</button>
+    </div>
+
+    <div class="service">🐜<br>पेस्ट कंट्रोल
+      <button onclick="book('पेस्ट कंट्रोल')">बुक करें</button>
+    </div>
+
+  </div>
+  <p id="noResult" style="display:none;">कोई सर्विस नहीं मिली।</p>
+</div>
+
+<div class="modal" id="bookingModal">
+  <div class="modal-content">
+    <button class="close" onclick="closeBooking()">बंद करें ✖</button>
+    <h2>बुकिंग फॉर्म</h2>
+    <p id="selectedService"></p>
+
+    <form id="bookingForm">
+      <input id="customerName" type="text"
+        placeholder="आपका नाम" required>
+
+      <input id="customerPhone" type="tel"
+        placeholder="10 अंकों का मोबाइल नंबर"
+        maxlength="10" required>
+
+      <select id="city" required>
+        <option value="">अपना शहर चुनें</option>
+        <option value="Aligarh">Aligarh</option>
+        <option value="Hathras">Hathras</option>
+        <option value="Sasni">Sasni</option>
+      </select>
+
+      <textarea id="customerAddress"
+        placeholder="पूरा पता लिखें" required></textarea>
+
+      <button class="submit-btn" type="submit">
+        WhatsApp पर बुक करें
+      </button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  © Service Mitra | आपकी सेवा, आपके पास
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const WHATSAPP_NUMBER = "919758595891";
@@ -24,12 +226,12 @@ function closeBooking() {
 }
 
 function filterServices() {
-  let value = document.getElementById("search").value.toLowerCase();
-  let items = document.querySelectorAll(".service");
+  const value = document.getElementById("search").value.toLowerCase();
+  const items = document.querySelectorAll(".service");
   let count = 0;
 
   items.forEach(item => {
-    let match = item.innerText.toLowerCase().includes(value);
+    const match = item.innerText.toLowerCase().includes(value);
     item.style.display = match ? "block" : "none";
     if (match) count++;
   });
@@ -38,67 +240,71 @@ function filterServices() {
     count === 0 ? "block" : "none";
 }
 
-document.getElementById("bookingForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+document.getElementById("bookingForm").addEventListener(
+  "submit", async function(e) {
+    e.preventDefault();
 
-  let name = document.getElementById("customerName").value.trim();
-  let phone = document.getElementById("customerPhone").value.trim();
-  let address = document.getElementById("customerAddress").value.trim();
-  let city = document.getElementById("city").value;
+    const name = document.getElementById("customerName").value.trim();
+    const phone = document.getElementById("customerPhone").value.trim();
+    const address = document.getElementById("customerAddress").value.trim();
+    const city = document.getElementById("city").value;
 
-  if (!/^[0-9]{10}$/.test(phone)) {
-    alert("कृपया सही 10 अंकों का मोबाइल नंबर डालें।");
-    return;
-  }
-
-  if (!name || !address || !selected) {
-    alert("कृपया सभी जानकारी भरें।");
-    return;
-  }
-
-  const submitButton = this.querySelector('button[type="submit"]');
-  submitButton.disabled = true;
-  submitButton.innerText = "बुकिंग सेव हो रही है...";
-
-  try {
-    const { error } = await db.from("bookings").insert([{
-      customer_name: name,
-      phone: phone,
-      service: selected,
-      city: city,
-      address: address,
-      status: "new"
-    }]);
-
-    if (error) {
-      console.error(error);
-      alert("बुकिंग डेटाबेस में सेव नहीं हुई। कृपया दोबारा कोशिश करें।");
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert("कृपया सही 10 अंकों का मोबाइल नंबर डालें।");
       return;
     }
 
-    let message =
-      "🙏 NEW SERVICE BOOKING - SERVICE MITRA\n" +
-      "--------------------------\n" +
-      "👤 ग्राहक का नाम: " + name + "\n" +
-      "📞 मोबाइल नंबर: " + phone + "\n" +
-      "🛠️ सर्विस: " + selected + "\n" +
-      "📍 शहर: " + city + "\n" +
-      "🏠 पता: " + address + "\n" +
-      "--------------------------\n" +
-      "कृपया मेरी सर्विस बुकिंग स्वीकार करें।";
+    if (!name || !address || !selected || !city) {
+      alert("कृपया सभी जानकारी भरें।");
+      return;
+    }
 
-    let whatsappURL =
-      "https://wa.me/" + WHATSAPP_NUMBER +
-      "?text=" + encodeURIComponent(message);
+    const button = this.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.innerText = "बुकिंग सेव हो रही है...";
 
-    window.location.href = whatsappURL;
+    try {
+      const { error } = await db.from("bookings").insert([{
+        customer_name: name,
+        phone: phone,
+        service: selected,
+        city: city,
+        address: address,
+        status: "new"
+      }]);
 
-  } catch (err) {
-    console.error(err);
-    alert("कुछ समस्या आई है। कृपया दोबारा कोशिश करें।");
-  } finally {
-    submitButton.disabled = false;
-    submitButton.innerText = "WhatsApp पर बुक करें";
+      if (error) {
+        console.error(error);
+        alert("डेटाबेस में बुकिंग सेव नहीं हुई: " + error.message);
+        return;
+      }
+
+      alert("आपकी बुकिंग डेटाबेस में सेव हो गई है!");
+
+      const message =
+        "🙏 NEW SERVICE BOOKING - SERVICE MITRA\n" +
+        "ग्राहक का नाम: " + name + "\n" +
+        "मोबाइल नंबर: " + phone + "\n" +
+        "सर्विस: " + selected + "\n" +
+        "शहर: " + city + "\n" +
+        "पता: " + address;
+
+      const whatsappURL =
+        "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+      window.location.href = whatsappURL;
+
+    } catch (err) {
+      console.error(err);
+      alert("समस्या आई है: " + err.message);
+    } finally {
+      button.disabled = false;
+      button.innerText = "WhatsApp पर बुक करें";
+    }
   }
-});
+);
 </script>
+
+</body>
+</html>
